@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const router = require('./routes/index.routes');
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8001;
 
 connection.connect((err) => {
   if (err) {
