@@ -28,17 +28,17 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { username, password, email } = req.body;
+  const { firstname, lastname, picture_path, description, status, network } = req.body;
   connection.query(
-    'INSERT INTO users (username, password, email) VALUES (?, ?, ?)',
-    [username, password, email],
+    'INSERT INTO team (firstname, lastname, picture_path, description, status, network) VALUES (?, ?, ?, ?, ?, ?)',
+    [firstname, lastname, picture_path, description, status, network],
     (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).send('Error saving the user');
+        res.status(500).send('Error saving the team');
       } else {
         const id = result.insertId;
-        const createdUser = { id, username, password, email };
+        const createdUser = { id, firstname, lastname, picture_path, description, status, network };
         res.status(201).json(createdUser);
       }
     }
@@ -48,37 +48,37 @@ router.post('/', (req, res) => {
 
 
 router.put('/:id', (req, res) => {
-  const userId = req.params.id;
+  const teamId = req.params.id;
   const db = connection.promise();
-  let existingUser = null;
-  db.query('SELECT * FROM users WHERE id = ?', [userId])
+  let existingTeam = null;
+  db.query('SELECT * FROM team WHERE id = ?', [teamId])
     .then(([results]) => {
-      existingUser = results[0];
-      if (!existingUser) return Promise.reject('RECORD_NOT_FOUND');
-      return db.query('UPDATE users SET ? WHERE id = ?', [req.body, userId]);
+      existingTeam = results[0];
+      if (!existingTeam) return Promise.reject('RECORD_NOT_FOUND');
+      return db.query('UPDATE team SET ? WHERE id = ?', [req.body, teamId]);
     })
     .then(() => {
-      res.status(200).json({ ...existingUser, ...req.body });
+      res.status(200).json({ ...existingTeam, ...req.body });
     })
     .catch((err) => {
       console.error(err);
       if (err === 'RECORD_NOT_FOUND')
-        res.status(404).send(`User with id ${userId} not found.`);
-      else res.status(500).send('Error updating a user');
+        res.status(404).send(`team with id ${teamId} not found.`);
+      else res.status(500).send('Error updating a team');
     });
 });
 
 router.delete('/:id', (req, res) => {
   connection.query(
-    'DELETE FROM users WHERE id = ?',
+    'DELETE FROM team WHERE id = ?',
     [req.params.id],
     (err, result) => {
       if (err) {
         console.log(err);
-        res.status(500).send('Error deleting an user');
+        res.status(500).send('Error deleting an team');
       } else {
-        if (result.affectedRows) res.status(200).send('🎉 User deleted!');
-        else res.status(404).send('User not found.');
+        if (result.affectedRows) res.status(200).send('🎉 team deleted!');
+        else res.status(404).send('team not found.');
       }
     }
   );
