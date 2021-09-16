@@ -27,23 +27,7 @@ router.get('/:id', (req, res) => {
   );
 });
 
-router.post('/', (req, res) => {
-  const { picture_path } = req.body;
-  connection.query(
-    'INSERT INTO banner (picture_path) VALUES (?)',
-    [ picture_path ],
-    (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error saving the banner');
-      } else {
-        const id = result.insertId;
-        const createdBanner = { id, picture_path };
-        res.status(201).json(createdBanner);
-      }
-    }
-  );
-});
+
 
 router.put('/:id', (req, res) => {
   const bannerId = req.params.id;
