@@ -28,6 +28,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+
   const { firstname, lastname, picture_path, description, status, network } = req.body;
   connection.query(
     'INSERT INTO team (firstname, lastname, picture_path, description, status, network) VALUES (?, ?, ?, ?, ?, ?)',
