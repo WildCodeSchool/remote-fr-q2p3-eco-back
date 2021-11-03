@@ -9,7 +9,6 @@ const partnerlogoRouter = require('./partner_logo.routes');
 const newsRouter = require('./news.routes');
 
 
-
 router.use('/users', usersRouter);
 router.use('/partners', partnersRouter);
 router.use('/team', teamRouter);

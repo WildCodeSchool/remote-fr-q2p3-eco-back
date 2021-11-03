@@ -2,14 +2,14 @@ const connection = require("../db-config");
 const router = require("express").Router();
 
 router.get('/', (req, res) => {
-    connection.query('SELECT * FROM news', (err, result) => {
-      if (err) {
-        res.status(500).send('Error retrieving news from database');
-      } else {
-        res.json(result);
-      }
-    });
+  connection.query('SELECT * FROM news', (err, result) => {
+    if (err) {
+      res.status(500).send('Error retrieving news from database');
+    } else {
+      res.json(result);
+    }
   });
+});
 
 router.get('/:id', (req, res) => {
   const newsId = req.params.id;
